@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gemini 이용현황 대시보드</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="layout">
+    <header class="site-header">
+      <h1>Gemini 이용현황 대시보드</h1>
+      <p class="lead">
+        같은 폴더의 <strong>data.csv</strong>를 자동으로 불러오거나, 아래에서 CSV 파일을 선택하세요.
+        컬럼 이름은 자동으로 인식합니다 (이름·소속·직급·이메일·상태·사용량).
+        로컬에서 더블클릭으로 연 경우 브라우저 보안 때문에 <code>data.csv</code>를 못 불러올 수 있으니,
+        이 폴더에서 <code>python -m http.server 8080</code> 후 <code>http://localhost:8080</code>으로 열어 주세요.
+      </p>
+    </header>
+
+    <div class="toolbar">
+      <div class="file-wrap">
+        <input type="file" id="csvFile" accept=".csv,text/csv" aria-label="CSV 파일 선택" />
+        <label for="csvFile" class="btn">CSV 파일 선택</label>
+      </div>
+      <button type="button" class="btn ghost" id="btnReloadData" title="data.csv 다시 불러오기">data.csv 새로고침</button>
+      <span class="source-meta" id="sourceMeta">초기화 중…</span>
+    </div>
+
+    <div class="status-banner error" id="errorBanner" role="alert"></div>
+    <div class="status-banner info" id="infoBanner"></div>
+
+    <div class="loading-overlay" id="loading">
+      <div class="spinner" aria-hidden="true"></div>
+      <span>CSV 처리 중…</span>
+    </div>
+
+    <main id="mainContent" hidden>
+      <section class="grid-kpi" aria-label="요약 지표">
+        <div class="card"><div class="label">전체 인원</div><div class="value" id="kpiTotalUsers">—</div></div>
+        <div class="card"><div class="label">전체 사용량</div><div class="value" id="kpiTotalUsage">—</div></div>
+        <div class="card"><div class="label">사용 인원</div><div class="value" id="kpiActiveUsers">—</div></div>
+        <div class="card"><div class="label">미사용(미등록·퇴사·휴직)</div><div class="value" id="kpiInactiveUsers">—</div></div>
+      </section>
+
+      <section class="charts-row two">
+        <div class="card panel">
+          <h2>직급별 상태 분포 (인원)</h2>
+          <div class="panel-canvas"><canvas id="chartRankStatus" aria-label="직급별 상태 차트"></canvas></div>
+        </div>
+        <div class="card panel">
+          <h2>상태별 인원</h2>
+          <div class="panel-canvas"><canvas id="chartStatusCount" aria-label="상태별 인원 차트"></canvas></div>
+        </div>
+      </section>
+
+      <section class="charts-row split">
+        <div class="card panel">
+          <h2>소속1별 사용량</h2>
+          <div class="panel-canvas"><canvas id="chartDeptUsage" aria-label="소속1별 사용량 차트"></canvas></div>
+        </div>
+        <div class="card panel">
+          <h2>전체 사용자 테이블</h2>
+          <div class="table-toolbar">
+            <label>상태 <select id="userStatusFilter" aria-label="상태 필터"></select></label>
+            <label>검색
+              <input type="search" id="userSearchInput" placeholder="이름, 이메일, 소속, 직급" autocomplete="off" />
+            </label>
+            <span class="table-meta" id="userTableMeta"></span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>순위</th><th>이름</th><th>소속1</th><th>직급</th><th>이메일</th><th>사용량</th><th>상태</th>
+                </tr>
+              </thead>
+              <tbody id="allUsersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <strong>Vercel:</strong> 새 프로젝트 → 이 폴더(<code>usage-dashboard-site</code>)를 Root Directory로 Import → Deploy.
+      이후 최신 CSV는 저장소의 <code>data.csv</code>만 교체 후 재배포하거나, 공유 링크 사용자는 상단 <strong>CSV 파일 선택</strong>으로 로드하면 됩니다.
+    </footer>
+  </div>
+</body>
+</html>
