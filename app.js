@@ -387,7 +387,8 @@ async function loadDataCsv() {
   setLoading(true);
   $("sourceMeta").textContent = "data.csv 불러오는 중…";
   try {
-    const res = await fetch("./data.csv", { cache: "no-store" });
+    // CDN·브라우저 캐시로 예전 CSV가 남는 경우 방지 (Vercel 등)
+    const res = await fetch(`./data.csv?t=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`data.csv를 찾을 수 없습니다 (${res.status}). 파일을 선택하거나 배포 폴더에 data.csv를 넣어 주세요.`);
     const text = await res.text();
     processCsvText(text, "data.csv (서버/로컬)");
