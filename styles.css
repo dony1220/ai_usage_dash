@@ -1,13 +1,15 @@
+/* gemini_usage_dashboard.html 과 유사한 톤 + 조금 더 여유 있는 크기 */
+
 :root {
-  --bg: #f0f4f8;
+  --bg: #f6f8fb;
   --surface: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --accent: #0d9488;
-  --accent-hover: #0f766e;
-  --radius: 12px;
-  --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04);
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 *,
@@ -19,35 +21,52 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
-  font-size: 15px;
+  font-family: Arial, "Malgun Gothic", sans-serif;
+  font-size: 16px;
   color: var(--text);
   background: var(--bg);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .layout {
-  max-width: 1280px;
+  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
-  padding: 24px 20px 48px;
+  padding: 20px 20px 40px;
+}
+
+@media (min-width: 1400px) {
+  .layout {
+    max-width: 1600px;
+    padding: 20px 28px 48px;
+  }
 }
 
 header.site-header {
-  margin-bottom: 28px;
+  margin-bottom: 18px;
 }
 
 .site-header h1 {
-  margin: 0 0 6px;
-  font-size: 1.65rem;
+  margin: 0 0 8px;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: var(--text);
 }
 
 .site-header p.lead {
   margin: 0;
   color: var(--muted);
-  font-size: 0.95rem;
-  max-width: 56ch;
+  font-size: 15px;
+  max-width: 72ch;
+}
+
+.site-header p.lead code {
+  font-size: 0.9em;
+  padding: 1px 5px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
 }
 
 .toolbar {
@@ -55,8 +74,8 @@ header.site-header {
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 14px 16px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -80,11 +99,11 @@ header.site-header {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 16px;
-  font-size: 0.9rem;
+  padding: 8px 14px;
+  font-size: 14px;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   background: var(--accent);
   color: #fff;
@@ -99,25 +118,26 @@ header.site-header {
 .toolbar button.btn.ghost {
   background: var(--surface);
   color: var(--text);
-  border: 1px solid var(--border);
+  border: 1px solid #d1d5db;
 }
 
 .toolbar button.btn.ghost:hover {
-  background: var(--bg);
+  background: #f3f4f6;
 }
 
 .toolbar .source-meta {
   margin-left: auto;
-  font-size: 0.8rem;
+  font-size: 13px;
   color: var(--muted);
 }
 
 .status-banner {
   display: none;
-  padding: 12px 16px;
+  padding: 12px 14px;
   border-radius: var(--radius);
   margin-bottom: 16px;
-  font-size: 0.9rem;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .status-banner.visible {
@@ -131,45 +151,57 @@ header.site-header {
 }
 
 .status-banner.info {
-  background: #f0fdfa;
-  border: 1px solid #99f6e4;
-  color: #115e59;
-}
-
-.banner-mapping {
-  margin-top: 8px;
-  font-size: 0.8rem;
-  color: var(--muted);
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0c4a6e;
 }
 
 .grid-kpi {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
   gap: 12px;
   margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid-kpi {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-kpi {
+    grid-template-columns: 1fr;
+  }
 }
 
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px 18px;
+  padding: 12px 14px;
   box-shadow: var(--shadow);
 }
 
+.card.panel {
+  padding: 12px;
+}
+
+/* KPI: 원본 kpi-title / kpi-value 스타일 */
 .card .label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 12px;
+  font-weight: 400;
   color: var(--muted);
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .card .value {
   margin-top: 6px;
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+  color: var(--text);
 }
 
 .charts-row {
@@ -189,14 +221,16 @@ header.site-header {
 }
 
 .panel h2 {
-  margin: 0 0 12px;
-  font-size: 1rem;
+  margin: 0 0 8px;
+  font-size: 16px;
   font-weight: 700;
+  color: var(--text);
 }
 
 .panel-canvas {
   position: relative;
-  min-height: 280px;
+  min-height: 340px;
+  height: 340px;
 }
 
 .table-toolbar {
@@ -204,42 +238,43 @@ header.site-header {
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .table-toolbar label {
-  font-size: 0.85rem;
-  color: #334155;
+  font-size: 13px;
+  color: #374151;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .table-toolbar select,
 .table-toolbar input[type="search"] {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.9rem;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
   min-width: 140px;
   background: var(--surface);
+  color: var(--text);
 }
 
 .table-toolbar input[type="search"] {
-  min-width: 220px;
+  min-width: 240px;
 }
 
 .table-meta {
-  font-size: 0.8rem;
+  font-size: 12px;
   color: var(--muted);
   margin-left: auto;
   white-space: nowrap;
 }
 
 .table-wrap {
-  height: 420px;
-  min-height: 420px;
-  max-height: 420px;
+  height: 460px;
+  min-height: 460px;
+  max-height: 460px;
   overflow: auto;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -250,26 +285,26 @@ header.site-header {
 table.data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 13px;
 }
 
 .data-table th,
 .data-table td {
-  padding: 10px 12px;
+  padding: 8px 6px;
   text-align: left;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #eef2f7;
 }
 
 .data-table th {
   position: sticky;
   top: 0;
-  background: #f8fafc;
+  background: #f9fafb;
   font-weight: 600;
   z-index: 1;
 }
 
 .data-table tbody tr:hover {
-  background: #f8fafc;
+  background: #f9fafb;
 }
 
 .loading-overlay {
@@ -279,6 +314,7 @@ table.data-table {
   gap: 10px;
   padding: 40px;
   color: var(--muted);
+  font-size: 15px;
 }
 
 .loading-overlay.visible {
@@ -286,8 +322,8 @@ table.data-table {
 }
 
 .spinner {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border: 2px solid var(--border);
   border-top-color: var(--accent);
   border-radius: 50%;
@@ -301,9 +337,18 @@ table.data-table {
 }
 
 footer.site-footer {
-  margin-top: 32px;
+  margin-top: 24px;
   padding-top: 16px;
   border-top: 1px solid var(--border);
-  font-size: 0.8rem;
+  font-size: 13px;
   color: var(--muted);
+  line-height: 1.6;
+}
+
+footer.site-footer code {
+  font-size: 0.9em;
+  background: #fff;
+  padding: 1px 4px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
 }

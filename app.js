@@ -168,7 +168,13 @@ function destroyCharts() {
 
 function renderCharts(payload) {
   destroyCharts();
-  const legendBottom = { legend: { position: "bottom" } };
+  const tickFont = { size: 13 };
+  const legendBottom = {
+    legend: {
+      position: "bottom",
+      labels: { font: { size: 13 }, boxWidth: 14, padding: 12 },
+    },
+  };
 
   chartInstances.push(
     new Chart($("chartRankStatus"), {
@@ -186,8 +192,11 @@ function renderCharts(payload) {
         maintainAspectRatio: false,
         plugins: legendBottom,
         scales: {
-          x: { stacked: true },
-          y: { stacked: true, beginAtZero: true },
+          x: {
+            stacked: true,
+            ticks: { font: tickFont, maxRotation: 45, minRotation: 0, autoSkip: true },
+          },
+          y: { stacked: true, beginAtZero: true, ticks: { font: tickFont } },
         },
       },
     })
@@ -220,7 +229,12 @@ function renderCharts(payload) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } },
+        scales: {
+          x: {
+            ticks: { font: tickFont, maxRotation: 50, minRotation: 0, autoSkip: true },
+          },
+          y: { beginAtZero: true, ticks: { font: tickFont } },
+        },
       },
     })
   );
